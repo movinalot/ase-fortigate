@@ -1,0 +1,190 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "fortiGateName": {
+      "type": "string",
+      "metadata": { "description": "Name of FortiGate Network Function to deploy" }
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Username for the Virtual Machine"
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Password for the Virtual Machine"
+      }
+    },
+    "fortiGateImageSKU": {
+      "type": "string",
+      "defaultValue": "fortigate-3nic-static-7-0-0",
+      "allowedValues": [
+        "fortigate-3nic-static-7-0-0"
+      ],
+      "metadata": { "description": "Name of FortiGate SKU" }
+    },
+    "deviceId": {
+      "type": "string",
+      "defaultValue": "/subscriptions/4f27b38c-ad3f-43d8-a9a3-01182e5e2f9a/resourceGroups/6899-AzureStack/providers/Microsoft.HybridNetwork/devices/ASE1GPU-NFM",
+      "metadata": { "description": "Azure Network Function Manager device instance" }
+    },
+    "fortiGateAditionalCustomData": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": { "description": "FortiGate user data" }
+    },
+    "port1Ip": { "type": "string" },
+    "port1SubnetAndMask": { "type": "string" },
+    "port1Gateway": { "type": "string" },
+    "port2Ip": { "type": "string" },
+    "port2SubnetAndMask": { "type": "string" },
+    "port2Gateway": { "type": "string" },
+    "port3Ip": { "type": "string" },
+    "port3SubnetAndMask": { "type": "string" },
+    "port3Gateway": { "type": "string" },
+    "fortiManager": {
+      "type": "string",
+      "defaultValue": "no",
+      "allowedValues": [
+        "yes",
+        "no"
+      ],
+      "metadata": {
+        "description": "Connect to FortiManager"
+      }
+    },
+    "fortiManagerIP": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "FortiManager IP or DNS name to connect to on port TCP/541"
+      }
+    },
+    "fortiManagerSerial": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "FortiManager serial number to add the deployed FortiGate into the FortiManager"
+      }
+    },
+    "fortiGateLicenseBYOL": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "FortiGate BYOL license content"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Location for all resources."
+      }
+    }
+  },
+  "variables": {
+    "port1IpTmp": "[split(parameters('port1SubnetAndMask'),'/')]",
+    "port1CIDRmask": "[string(int(variables('port1IpTmp')[1]))]",
+    "port2IpTmp": "[split(parameters('port2SubnetAndMask'),'/')]",
+    "port2CIDRmask": "[string(int(variables('port2IpTmp')[1]))]",
+    "port3IpTmp": "[split(parameters('port3SubnetAndMask'),'/')]",
+    "port3CIDRmask": "[string(int(variables('port3IpTmp')[1]))]",
+
+    "fmgCustomData": "[if(equals(parameters('fortiManager'),'yes'),concat('\nconfig system central-management\nset type fortimanager\n set fmg ',parameters('fortiManagerIP'),'\nset serial-number ', parameters('fortiManagerSerial'), '\nend\n config system interface\n edit port1\n append allowaccess fgfm\n end\n config system interface\n edit port2\n append allowaccess fgfm\n end\n'),'')]",
+    "customDataBody": "[concat('#cloud-config\nruncmd:\nconfig system global\nset hostname ', parameters('fortiGateName'), '\nset admintimeout 120\nset gui-theme mariner\nend\nconfig system interface\nedit port1\nset alias mgmt\nset mode static\nset ip ', parameters('port1Ip'), '/', variables('port1CIDRmask'), '\nset allowaccess ping https ssh\nnext\nedit port2\nset alias wan\nset mode static\nset ip ', parameters('port2Ip'), '/', variables('port2CIDRmask'), '\nset allowaccess ping https ssh\nnext\nedit port3\nset alias lan\nset mode static\nset ip ' , parameters('port3Ip'), '/', variables('port3CIDRmask'), '\nset allowaccess ping\nnext\nend\nconfig system admin\nedit ' , parameters('adminUserName'), '\nset accprofile \"super_admin\"\nset password ' ,  parameters('adminPassword'), '\nset vdom root\nnext\nend\n', variables('fmgCustomData'), parameters('fortiGateAditionalCustomData'), '\n')]",
+    "fgtCustomData": "[base64(variables('customDataBody'))]"
+
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-06-01",
+      "name": "pid",
+      "properties": {
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "resources": []
+        }
+      }
+    },
+    {
+      "type": "Microsoft.HybridNetwork/networkFunctions",
+      "apiVersion": "2020-01-01-preview",
+      "name": "[parameters('fortiGateName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "skuName": "[parameters('fortiGateImageSKU')]",
+        "vendorName": "Fortinet",
+        "device": {
+          "id": "[parameters('deviceId')]"
+        },
+        "networkFunctionUserConfigurations": [
+          {
+            "roleName": "fortigate",
+            "osProfile": {
+              "customData": "[variables('fgtCustomData')]"
+            },
+            "networkInterfaces": [
+              {
+                "networkInterfaceName": "port1",
+                "macAddress": "",
+                "vmSwitchType": "Management",
+                "ipConfigurations": [
+                  {
+                    "ipAllocationMethod": "Static",
+                    "ipAddress": "[parameters('port1Ip')]",
+                    "subnet": "[parameters('port1SubnetAndMask')]",
+                    "gateway": "[parameters('port1Gateway')]",
+                    "ipVersion": "IPv4",
+                    "dnsServers": []
+                  }
+                ]
+              },
+              {
+                "networkInterfaceName": "port2",
+                "macAddress": "",
+                "vmSwitchType": "Wan",
+                "ipConfigurations": [
+                  {
+                    "ipAllocationMethod": "Static",
+                    "ipAddress": "[parameters('port2Ip')]",
+                    "subnet": "[parameters('port2SubnetAndMask')]",
+                    "gateway": "[parameters('port2Gateway')]",
+                    "ipVersion": "IPv4",
+                    "dnsServers": []
+                  }
+                ]
+              },
+              {
+                "networkInterfaceName": "port3",
+                "macAddress": "",
+                "vmSwitchType": "Lan",
+                "ipConfigurations": [
+                  {
+                    "ipAllocationMethod": "Static",
+                    "ipAddress": "[parameters('port3Ip')]",
+                    "subnet": "[parameters('port3SubnetAndMask')]",
+                    "gateway": "[parameters('port3Gateway')]",
+                    "ipVersion": "IPv4",
+                    "dnsServers": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {
+    "base64Output": {
+      "type": "string",
+      "value": "[variables('fgtCustomData')]"
+    }
+  }
+}

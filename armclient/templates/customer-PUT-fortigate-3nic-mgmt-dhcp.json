@@ -1,0 +1,67 @@
+{
+    "location": "eastus",
+    "properties": {
+      "device": {
+        "id": "/subscriptions/4f27b38c-ad3f-43d8-a9a3-01182e5e2f9a/resourceGroups/6899-AzureStack/providers/Microsoft.HybridNetwork/devices/ASE1GPU-NFM"
+      },
+      "skuName": "fortigate-3nic-dhcp-7-0-0",
+      "skuType": "Firewall",
+      "vendorName": "Fortinet",
+      "networkFunctionUserConfigurations": [
+        {
+          "roleName": "fortigate",
+          "userDataParameters": null,
+          "osProfile":{
+            "customData": "I2Nsb3VkLWNvbmZpZwpydW5jbWQ6CmNvbmZpZyBzeXN0ZW0gZ2xvYmFsCnNldCBob3N0bmFtZSBmZ3QtYXNlLTNuaWNzLWRoY3AKc2V0IGFkbWludGltZW91dCAxMjAKc2V0IGd1aS10aGVtZSBtYXJpbmVyCmVuZApjb25maWcgc3lzdGVtIGludGVyZmFjZQplZGl0IHBvcnQxCnNldCBhbGlhcyBtZ210CnNldCBtb2RlIGRoY3AKc2V0IGFsbG93YWNjZXNzIHBpbmcgaHR0cHMgc3NoIGZnZm0KbmV4dAplZGl0IHBvcnQyCnNldCBhbGlhcyB3YW4Kc2V0IG1vZGUgc3RhdGljCnNldCBpcCAxOTIuMTY4LjYuMTAvMjQKc2V0IGFsbG93YWNjZXNzIHBpbmcgaHR0cHMgc3NoIGZnZm0KbmV4dAplZGl0IHBvcnQzCnNldCBhbGlhcyBsYW4Kc2V0IG1vZGUgc3RhdGljCnNldCBpcCAxOTIuMTY4LjUuMTAvMjQKc2V0IGFsbG93YWNjZXNzIHBpbmcKbmV4dAplbmQKY29uZmlnIHN5c3RlbSBhZG1pbgplZGl0IGZndGFzZWFkbWluCnNldCBhY2Nwcm9maWxlIHN1cGVyX2FkbWluCnNldCBwYXNzd29yZCBGb3J0aW5ldDEyMzQhCnNldCB2ZG9tIHJvb3QKbmV4dAplbmQK"
+          },
+          "networkInterfaces": [
+            {
+              "networkInterfaceName": "port1",
+              "macAddress": "",
+              "vmSwitchType": "Management",
+              "ipConfigurations": [
+                {
+                  "ipAllocationMethod": "Dynamic",
+                  "ipAddress": "",
+                  "subnet": "",
+                  "gateway": "",
+                  "ipVersion": "IPv4",
+                  "dnsServers": null
+                }
+              ]
+            },
+            {
+              "networkInterfaceName": "port2",
+              "macAddress": "",
+              "vmSwitchType": "Wan",
+              "ipConfigurations": [
+                {
+                  "ipAllocationMethod": "Static",
+                  "ipAddress": "192.168.6.10",
+                  "subnet": "192.168.6.0/24",
+                  "gateway": "192.168.6.1",
+                  "ipVersion": "IPv4",
+                  "dnsServers": null
+                }
+              ]
+            },
+            {
+              "networkInterfaceName": "port3",
+              "macAddress": "",
+              "vmSwitchType": "Lan",
+              "ipConfigurations": [
+                {
+                  "ipAllocationMethod": "Static",
+                  "ipAddress": "192.168.5.10",
+                  "subnet": "192.168.5.0/24",
+                  "gateway": "192.168.5.1",
+                  "ipVersion": "IPv4",
+                  "dnsServers": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }

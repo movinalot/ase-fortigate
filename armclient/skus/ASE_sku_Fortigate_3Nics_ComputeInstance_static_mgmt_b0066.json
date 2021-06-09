@@ -1,0 +1,97 @@
+{
+    "properties": {
+        "skuType": "Firewall",
+        "preview": true,
+        "deploymentMode": "PrivateEdgeZone",
+        "managedApplicationParameters": null,
+        "managedApplicationTemplate": null,
+        "networkFunctionTemplate": {
+            "networkFunctionRoleConfigurations": [
+                {
+                    "roleName": "fortigate",
+                    "roleType": "VirtualMachine",
+                    "virtualMachineSize": "Standard_F4s",
+                    "storageProfile": {
+                        "osDisk": {
+                            "diskSizeGB": 3,
+                            "osType": "Linux",
+                            "name": "fortiosvhd",
+                            "vhd": {
+                                "uri": "https://ftnt.blob.core.windows.net/vhds/fos-b0066-byol.vhd?sv=2020-04-08&st=2021-03-30T18%3A07%3A00Z&se=2022-04-01T18%3A07%3A00Z&sr=c&sp=rl&sig=XW98Bf9z5M9LQ3tK8mYNexMmDI6B58Px%2FnciBEZr8lI%3D"
+                            }
+                        },
+                        "dataDisks": [
+                            {
+                                "createOption": "Empty",
+                                "name": "fortiosDataDisk1",
+                                "diskSizeGB": 10
+                            }
+                        ]
+                    },
+                    "osProfile": {
+                        "adminUsername": "fortigateadmin",
+                        "customDataRequired": true,
+                        "linuxConfiguration": {
+                            "ssh": {
+                                "publicKeys": [
+                                    {
+                                        "keyData": "ssh-rsa private key goes here, create with ssh-keygen no passphrase"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "userDataTemplate": null,
+                    "userDataParameters": null,
+                    "networkInterfaces": [
+                        {
+                            "networkInterfaceName": "port1",
+                            "macAddress": "",
+                            "vmSwitchType": "Management",
+                            "ipConfigurations": [
+                                {
+                                    "ipAllocationMethod": "Static",
+                                    "ipAddress": "",
+                                    "subnet": "",
+                                    "gateway": "",
+                                    "ipVersion": "IPv4",
+                                    "dnsServers": null
+                                }
+                            ]
+                        },
+                        {
+                            "networkInterfaceName": "port2",
+                            "macAddress": "",
+                            "vmSwitchType": "Wan",
+                            "ipConfigurations": [
+                                {
+                                    "ipAllocationMethod": "Static",
+                                    "ipAddress": "",
+                                    "subnet": "",
+                                    "gateway": "",
+                                    "ipVersion": "IPv4",
+                                    "dnsServers": null
+                                }
+                            ]
+                        },
+                        {
+                            "networkInterfaceName": "port3",
+                            "macAddress": "",
+                            "vmSwitchType": "Lan",
+                            "ipConfigurations": [
+                                {
+                                    "ipAllocationMethod": "Static",
+                                    "ipAddress": "",
+                                    "subnet": "",
+                                    "gateway": "",
+                                    "ipVersion": "IPv4",
+                                    "dnsServers": null
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
