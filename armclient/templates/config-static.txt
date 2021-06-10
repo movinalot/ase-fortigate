@@ -9,7 +9,7 @@ config system interface
 edit port1
 set alias mgmt
 set mode static
-set ip 172.18.70.231/24
+set ip 172.18.70.251/24
 set allowaccess ping https ssh fgfm
 next
 edit port2
