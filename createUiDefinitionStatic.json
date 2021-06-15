@@ -72,15 +72,11 @@
 				"name": "fortigateImageSKU",
 				"type": "Microsoft.Common.DropDown",
 				"label": "Fortigate Image SKU",
-				"defaultValue": "FortiGate 3 Nic with Mgmt DHCP Interface",
+				"defaultValue": "FortiGate 3 Nic with Mgmt Static Interface",
 				"toolTip": "Identifies which FortiGate image to use.",
 				"constraints": {
 					"required": false,
 					"allowedValues": [
-						{
-							"label": "FortiGate 3 Nic with Mgmt DHCP Interface",
-							"value": "fortigate-3nic-dhcp-7-0-0"
-						},
 						{
 							"label": "FortiGate 3 Nic with Mgmt Static Interface",
 							"value": "fortigate-3nic-static-7-0-0"
