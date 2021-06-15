@@ -5,6 +5,12 @@ set hostname fgt-ase-3nics-dhcp
 set admintimeout 120
 set gui-theme mariner
 end
+config router static
+ edit 1
+ set device port1
+ set dynamic-gateway enable
+ next
+end
 config system interface
 edit port1
 set alias mgmt

@@ -300,6 +300,19 @@
 						]
 					},
 					{
+						"name": "licenseflexvmtoken",
+						"type": "Microsoft.Common.TextBox",
+						"label": "FortiGate Flex-VM",
+						"defaultValue": "",
+						"toolTip": "FortiGate Flex-VM license token",
+						"constraints": {
+							"required": false,
+							"regex": "^[A-Za-z0-9-]{1,64}$",
+							"validationMessage": "Only alphanumeric characters and a dash are allowed, the value must be 1 to 64 characters."
+						},
+						"visible": true
+					},
+					{
 						"name": "fgtlicense",
 						"type": "Microsoft.Common.Section",
 						"label": "FortiGate License",
@@ -351,6 +364,7 @@
 			"fortiManagerIP": "[steps('advanced').fortimanager.fortimanagerip]",
 			"fortiManagerSerial": "[steps('advanced').fortimanager.fortimanagerserial]",
 			"fortiGateAditionalCustomData": "[steps('advanced').customdata.config]",
+			"fortiGateLicenseFlexVM": "[steps('advanced').fgtlicense.licenseflexvmtoken]",
 			"fortiGateLicenseBYOL": "[steps('advanced').fgtlicense.licensecontent]"
 		}
 	}
