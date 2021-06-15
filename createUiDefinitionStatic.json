@@ -336,19 +336,6 @@
 						]
 					},
 					{
-						"name": "licenseflexvmtoken",
-						"type": "Microsoft.Common.TextBox",
-						"label": "FortiGate Flex-VM",
-						"defaultValue": "",
-						"toolTip": "FortiGate Flex-VM license token",
-						"constraints": {
-							"required": false,
-							"regex": "^[A-Za-z0-9-]{1,64}$",
-							"validationMessage": "Only alphanumeric characters and a dash are allowed, the value must be 1 to 64 characters."
-						},
-						"visible": true
-					},
-					{
 						"name": "fgtlicense",
 						"type": "Microsoft.Common.Section",
 						"label": "FortiGate License",
@@ -358,7 +345,7 @@
 								"type": "Microsoft.Common.TextBlock",
 								"visible": true,
 								"options": {
-									"text": "Upload FortiGate License"
+									"text": "Upload FortiGate License or enter a Flex VM Token"
 								}
 							},
 							{
@@ -375,6 +362,19 @@
 									"uploadMode": "file",
 									"openMode": "text",
 									"encoding": "UTF-8"
+								},
+								"visible": true
+							},
+							{
+								"name": "licenseflexvmtoken",
+								"type": "Microsoft.Common.TextBox",
+								"label": "FortiGate Flex-VM",
+								"defaultValue": "",
+								"toolTip": "FortiGate Flex-VM license token",
+								"constraints": {
+									"required": false,
+									"regex": "^[A-Za-z0-9-]{1,64}$",
+									"validationMessage": "Only alphanumeric characters and a dash are allowed, the value must be 1 to 64 characters."
 								},
 								"visible": true
 							}
