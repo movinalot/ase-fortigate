@@ -383,7 +383,8 @@
 			"fortiManagerSerial": "[steps('advanced').fortimanager.fortimanagerserial]",
 			"fortiGateAditionalCustomData": "[steps('advanced').customdata.config]",
 			"fortiGateLicenseFlexVM": "[steps('advanced').fgtlicense.licenseflexvmtoken]",
-			"fortiGateLicenseBYOL": "[steps('advanced').fgtlicense.licensecontent]"
+			"fortiGateLicenseBYOL": "[steps('advanced').fgtlicense.licensecontent]",
+			"managedIdentity": "[steps('identityDetails').identity]"
 		}
 	}
 }
