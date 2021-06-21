@@ -120,7 +120,7 @@
 								"visible": true
 						} 
 					]
-				},
+			},
 			{
 				"bladeTitle": "Network settings",
 				"name": "networking",

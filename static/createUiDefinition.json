@@ -100,6 +100,28 @@
 		],
 		"steps": [
 			{
+				"name": "identityDetails",
+				"label": "Managed Identity Details",
+				"subLabel": { 
+					"preValidation": "Required",
+					"postValidation": "Done" },
+					"bladeTitle": "Managed Identity Details",
+					"elements": [
+						{
+							"name": "identity",
+							"type": "Microsoft.ManagedIdentity.IdentitySelector",
+							"label": "Managed Identity Configuration",
+							"toolTip": { 
+								"userAssignedIdentity": "Add user assigned identities to grant the managed application access to Azure Network Function Managed device." },
+								"options": {
+									"hideSystemAssignedIdentity": true, 
+									"hideUserAssignedIdentity": false
+								},
+								"visible": true
+						} 
+					]
+			},
+			{
 				"bladeTitle": "Network settings",
 				"name": "networking",
 				"label": "Network Settings",
@@ -111,7 +133,7 @@
 					{
 						"name": "ipconfig",
 						"type": "Microsoft.Common.Section",
-						"label": "Networking",
+						"label": "LAN / WAN Networking",
 						"elements": [
 							{
 								"name": "mgmtIpAddress",
@@ -400,7 +422,8 @@
 			"fortiManagerSerial": "[steps('advanced').fortimanager.fortimanagerserial]",
 			"fortiGateAditionalCustomData": "[steps('advanced').customdata.config]",
 			"fortiGateLicenseFlexVM": "[steps('advanced').fgtlicense.licenseflexvmtoken]",
-			"fortiGateLicenseBYOL": "[steps('advanced').fgtlicense.licensecontent]"
+			"fortiGateLicenseBYOL": "[steps('advanced').fgtlicense.licensecontent]",
+			"managedIdentity": "[steps('identityDetails').identity]"
 		}
 	}
 }
