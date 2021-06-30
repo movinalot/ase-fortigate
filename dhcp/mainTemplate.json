@@ -28,7 +28,7 @@
     },
     "deviceId": {
       "type": "string",
-      "defaultValue": "/subscriptions/4f27b38c-ad3f-43d8-a9a3-01182e5e2f9a/resourceGroups/6899-AzureStack/providers/Microsoft.HybridNetwork/devices/ASE1GPU-NFM",
+      "defaultValue": "",
       "metadata": { "description": "Azure Network Function Manager device instance" }
     },
     "fortiGateAditionalCustomData": {
